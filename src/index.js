@@ -13,7 +13,7 @@ async function run() {
     // TODO: Produce boxes based on mask....
 
     const errorColorObj = utils.parseColorOption(errorColorString);
-    const boxObj = utils.parseBoxOption(boxSting);
+    const boxObj = utils.parseBoxOption(ignoredBoxSting);
 
     let options = {
       output: {
