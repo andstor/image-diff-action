@@ -2844,7 +2844,7 @@ async function run() {
     const imgPath2 = core.getInput('img_2');
     const errorColorString = core.getInput('error_color');
     const maskPath = core.getInput('mask');
-    const boxSting = core.getInput('box');
+    const ignoredBoxSting = core.getInput('ignored_box');
     
     // TODO: Produce boxes based on mask....
 

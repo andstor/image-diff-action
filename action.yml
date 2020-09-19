@@ -18,7 +18,7 @@ inputs:
     description: 'Color for the error highlighting.'
     default: '255, 0, 255'
     required: false
-  error_color:
+  ignored_box:
     description: 'Area to be excluded from the top left in pixels (top, right, bottom, left).'
     default: '0, 0, 0, 0'
     required: false
