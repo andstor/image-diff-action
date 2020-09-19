@@ -1,13 +1,32 @@
-name: 'Wait'
-description: 'Wait a designated number of milliseconds'
+name: 'Image Diff Action'
+description: 'GitHub Action for producing image diffs'
+author: 'André Storhaug'
+branding:
+  icon: 'image'  
+  color: 'purple'
 inputs:
-  milliseconds:  # id of input
-    description: 'number of milliseconds to wait'
+  img_1:
+    description: 'The path to the image file used as base image.'
     required: true
-    default: '1000'
+  img_2:
+    description: 'The path to the image file to be compared against the base image.'
+    required: true
+  mask:
+    description: 'The path to the image file to be compared against the base image.'
+    required: false
+  error_color:
+    description: 'Color for the error highlighting.'
+    default: '255, 0, 255'
+    required: false
+  error_color:
+    description: 'Area to be excluded from the top left in pixels (top, right, bottom, left).'
+    default: '0, 0, 0, 0'
+    required: false
 outputs:
-  time: # output will be available to future steps
-    description: 'The message to output'
+  img-diff:
+    description: 'The image diff.'
+  mismatch:
+    description: 'The mismatch percentage'
 runs:
   using: 'node12'
-  main: 'dist/index.js'
+  main: 'src/index.js'
