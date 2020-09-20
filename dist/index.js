@@ -3301,8 +3301,12 @@ async function run() {
     const img2Name = path.basename(imgPath2, path.extname(imgPath2));
     core.info(`The second image "${img2Name}" is ${mismatchPercentage}% different compared to the first image "${img1Name}".`);
 
+
     const buffer = PNG.sync.write(imgDiff);
-    core.setOutput('img-diff', buffer);
+    fs.promises.mkdir('output', { recursive: true });
+    fs.writeFileSync('output/out.png', buffer);
+
+    core.setOutput('img-diff', 'output/out.png');
     core.setOutput('mismatch', mismatchPercentage);
 
   } catch (error) {
