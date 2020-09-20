@@ -29,7 +29,10 @@
   "homepage": "https://github.com/andstor/image-diff-action#readme",
   "dependencies": {
     "@actions/core": "^1.2.5",
-    "resemblejs": "^3.2.5"
+    "image-decode": "^1.2.2",
+    "image-size": "^0.9.1",
+    "pixelmatch": "^5.2.1",
+    "pngjs": "^5.0.0"
   },
   "devDependencies": {
     "@vercel/ncc": "^0.24.1",

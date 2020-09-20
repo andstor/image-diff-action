@@ -11,16 +11,12 @@ inputs:
   img_2:
     description: 'The path to the image file to be compared against the base image.'
     required: true
-  mask:
+  diff_color:
+    description: 'Color for the diff highlighting.'
+    default: '255, 255, 0'
+    required: false
+  ignore_mask:
     description: 'The path to the image file to be compared against the base image.'
-    required: false
-  error_color:
-    description: 'Color for the error highlighting.'
-    default: '255, 0, 255'
-    required: false
-  ignored_box:
-    description: 'Area to be excluded from the top left in pixels (top, right, bottom, left).'
-    default: '0, 0, 0, 0'
     required: false
 outputs:
   img-diff:

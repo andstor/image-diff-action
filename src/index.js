@@ -1,45 +1,56 @@
 const core = require('@actions/core');
+const fs = require('fs');
 const path = require('path');
 const utils = require('./utils');
+const pixelmatch = require('pixelmatch');
+const PNG = require('pngjs').PNG;
 
 async function run() {
   try {
     const imgPath1 = core.getInput('img_1');
     const imgPath2 = core.getInput('img_2');
-    const errorColorString = core.getInput('error_color');
-    const maskPath = core.getInput('mask');
-    const ignoredBoxSting = core.getInput('ignored_box');
-    
-    // TODO: Produce boxes based on mask....
+    const diffColorString = core.getInput('diff_color');
+    const ignoreMaskPath = core.getInput('ignore_mask');
 
-    const errorColorObj = utils.parseColorOption(errorColorString);
-    const boxObj = utils.parseBoxOption(ignoredBoxSting);
+    const img1 = PNG.sync.read(fs.readFileSync(imgPath1));
+    const img2 = PNG.sync.read(fs.readFileSync(imgPath2));
+    const { width, height } = img1;
+    const imgDiff = new PNG({ width, height });
+
+
+    let area = {
+      x0: 300,
+      y0: 300,
+      x1: 815,
+      y1: 700,
+    }
+
+    //utils.ignoreArea(area, img1);
+    //utils.ignoreArea(area, img2);
+
+    const diffColor = utils.stringToList(diffColorString);
 
     let options = {
-      output: {
-          errorColor: errorColorObj,
-          ignoredBox: boxObj,
-          errorType: "flat",
-          //transparency: 0.3,
-          largeImageThreshold: 0,
-          useCrossOrigin: false,
-          outputDiff: true,
-      },
-      scaleToSameSize: true,
-      ignore: "antialiasing"
-  };
-    
-    let data = utils.getDiff(imgPath1, imgPath2, options);
+      threshold: 0.1,
+      includeAA: false,
+      alpha: 1,
+      aaColor: [255, 255, 0],
+      diffColor: diffColor,
+      diffMask: false,
+    }
+
+    const mismatched = pixelmatch(img1.data, img2.data, imgDiff.data, width, height, options);
+    const mismatchPercentage = mismatched / (img1.width * img1.height) * 100;
 
     const img1Name = path.basename(imgPath1, path.extname(imgPath1));
     const img2Name = path.basename(imgPath2, path.extname(imgPath2));
-    core.info(`The second image "${img2Name}" is ${data.misMatchPercentage}% different compared to the first image "${img1Name}".`);
-    
-    core.setOutput('img-diff', data.getBuffer());
-    core.setOutput('mismatch', data.misMatchPercentage);
+    core.info(`The second image "${img2Name}" is ${mismatchPercentage}% different compared to the first image "${img1Name}".`);
 
-  }
-  catch (error) {
+    const buffer = PNG.sync.write(imgDiff);
+    core.setOutput('img-diff', buffer);
+    core.setOutput('mismatch', mismatchPercentage);
+
+  } catch (error) {
     core.setFailed(error.message);
   }
 }
