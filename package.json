@@ -30,7 +30,7 @@
   "dependencies": {
     "@actions/core": "^1.2.5",
     "image-decode": "^1.2.2",
-    "image-size": "^0.9.1",
+    "image-size": "^1.0.0",
     "pixelmatch": "^5.2.1",
     "pngjs": "^5.0.0"
   },
