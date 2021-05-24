@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/andstor/image-diff-action#readme",
   "dependencies": {
-    "@actions/core": "^1.2.5",
+    "@actions/core": "^1.3.0",
     "image-decode": "^1.2.2",
     "image-size": "^0.9.1",
     "pixelmatch": "^5.2.1",
